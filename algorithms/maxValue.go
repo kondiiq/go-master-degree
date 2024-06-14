@@ -5,6 +5,24 @@ import (
 	"knapsackProblem/model"
 )
 
+// func MaxValue(maxCapacity int, noItems int, knapsack []model.KnapsackItem) int {
+// 	if maxCapacity == 0 || noItems == 0 {
+// 		return 0
+// 	}
+// 	currentWeight := 0
+// 	currentResult := 0
+// 	for currentWeight <= maxCapacity || len(knapsack) == 1 {
+// 		mValue, index, err := handler.FindMaxPropertyItem(knapsack, "value")
+// 		if err != nil {
+// 			handler.ErrorHandler(err)
+// 		}
+// 		currentResult += mValue.Value
+// 		currentWeight += mValue.Weight
+// 		handler.RemoveElementWithIndexN(knapsack, index)
+// 	}
+// 	return currentResult
+// }
+
 func MaxValue(maxCapacity int, noItems int, knapsack []model.KnapsackItem) int {
 	if maxCapacity == 0 || noItems == 0 {
 		return 0
