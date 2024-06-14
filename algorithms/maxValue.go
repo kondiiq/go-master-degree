@@ -23,19 +23,20 @@ import (
 // 	return currentResult
 // }
 
-func MaxValue(maxCapacity int, noItems int, knapsack []model.KnapsackItem) int {
-	if maxCapacity == 0 || noItems == 0 {
+func MaxValue(maxCapacity int, knapsack []model.KnapsackItem) int {
+	if maxCapacity == 0 || handler.IsArrayLenNull(knapsack) {
 		return 0
 	}
+	noItems := len(knapsack)
 	currentWeight := 0
 	currentResult := knapsack[noItems - 1].Value
 	currentWeight += knapsack[noItems - 1].Weight
 	noItems -= 1
-	handler.RemoveElementWithIndexN(knapsack, noItems - 1)
+	handler.RemoveElementWithIndexN(knapsack, noItems)
 	for currentWeight +  knapsack[noItems - 1].Weight <= maxCapacity || len(knapsack) == 1 {
 		currentResult += knapsack[noItems - 1].Value
-		currentWeight += knapsack[noItems - 1].Value
-		handler.RemoveElementWithIndexN(knapsack, noItems - 1)
+		currentWeight += knapsack[noItems - 1].Weight
+		handler.RemoveElementWithIndexN(knapsack, noItems)
 		noItems -= 1
 	}
 	return currentResult

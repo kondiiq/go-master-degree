@@ -1,5 +1,7 @@
 package algorithms
-import "knapsackProblem/model"
+import (
+    "knapsackProblem/model"
+)
 
 func BruteForce(maxCapacity int, noItems int,knapsack []model.KnapsackItem) int{
 	if noItems == 0 || maxCapacity == 0{
