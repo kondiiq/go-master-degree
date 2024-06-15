@@ -50,5 +50,11 @@ func main() {
 	}
 	wgResult := algorithms.WeightRatioValue(max_capaxity, knapsack)
 	fmt.Println("Weight ratio result is :", wgResult)
+	knapsack, err = handler.AppendItemsIntoKnapsack(value[:], weight[:])
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	dpResult := algorithms.DynamicProgramming(max_capaxity, knapsack)
+	fmt.Println("Dynamic programming result is :", dpResult)
 }
 

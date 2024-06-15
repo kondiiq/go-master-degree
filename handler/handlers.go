@@ -73,7 +73,7 @@ func  findMaxAndIndex(arr []model.KnapsackItem, max model.KnapsackItem, index in
 }
 
 func FindMaxValueWeightRatioItemAndIndex(arr []float32) int{
-	if IsArrayLenNullf32(arr) {
+	if IsArrayLenNull(arr) {
 		return 0
 	}
 	var index int
@@ -98,12 +98,12 @@ func ChooseRandomIndex(knapsack []model.KnapsackItem) (int, error) {
     return index, nil
 }
 
-func IsArrayLenNull(arr []model.KnapsackItem) bool {
-	return len(arr) == 0
+func IsArrayLenNull[T comparable](arr []T) bool {
+	return reflect.ValueOf(arr).IsZero()
 }
 
-func IsArrayLenNullf32(arr []float32) bool {
-	return len(arr) == 0
+func IsCapacityNull [T comparable](capacity T) bool {
+	return reflect.ValueOf(capacity).IsZero()
 }
 
 func CreateValueWeightRatio(knapsack []model.KnapsackItem) []float32 {
@@ -118,4 +118,11 @@ func CreateValueWeightRatio(knapsack []model.KnapsackItem) []float32 {
 		result = append(result, partResult)
 	}
 	return result
+}
+
+func CompareValues(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
