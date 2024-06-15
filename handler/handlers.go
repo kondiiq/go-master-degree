@@ -4,6 +4,8 @@ import (
 	"log"
 	"knapsackProblem/model"
 	"errors"
+	"math/rand"
+	"reflect"
 )
 
 func ErrorHandler(err error) {
@@ -31,17 +33,8 @@ func FindMaxPropertyItem(arr []model.KnapsackItem, property string) (model.Knaps
 	}
 	max := arr[0]
 	index := 0
-	if(property == "Value" || property == "value"){
-		for i := 1; i < len(arr); i++ {
-			max, index = findMaxAndIndex(arr, max, index, i)
-		}
-		return max, index, nil
-	}
-	if(property == "Weight" || property == "weight"){
-		for i := 1; i < len(arr); i++ {
-			max, index = findMaxAndIndex(arr, max, index, i)
-		}
-		return max, index, nil
+	for i := 1; i < len(arr); i++ {
+		max, index = findMaxAndIndex(arr, max, index, i, property)
 	}
 	return max, index, nil
 }
@@ -61,10 +54,20 @@ func AppendItemsIntoKnapsack(values []int, weights []int) ([]model.KnapsackItem,
 	return finalKnapsack, nil
 }
 
-func  findMaxAndIndex(arr []model.KnapsackItem, max model.KnapsackItem, index int, currIndex int) (model.KnapsackItem, int) {
-	if arr [currIndex].Weight > max.Weight {
-		max = arr[currIndex]
-		index = currIndex
+func  findMaxAndIndex(arr []model.KnapsackItem, max model.KnapsackItem, index int, currIndex int, property string) (model.KnapsackItem, int) {
+	if property == "Weight" || property == "weight" {
+		if arr [currIndex].Weight > max.Weight {
+			max = arr[currIndex]
+			index = currIndex
+			return max, index
+		}
+	}
+	if property == "Value" || property == "value" {
+		if arr [currIndex].Value > max.Value {
+			max = arr[currIndex]
+			index = currIndex
+			return max, index
+		}
 	}
 	return max, index
 }
@@ -84,10 +87,35 @@ func FindMaxValueWeightRatioItemAndIndex(arr []float32) int{
 	return index
 }
 
+func ChooseRandomIndex(knapsack []model.KnapsackItem) (int, error) {
+	if IsArrayLenNull(knapsack) {
+        return 0, errors.New("current list has not data")
+    }
+	index := rand.Intn(len(knapsack))
+	for knapsack[index].Value == 0 &&  knapsack[index].Weight == 0 {
+		index = rand.Intn(len(knapsack))
+	}
+    return index, nil
+}
+
 func IsArrayLenNull(arr []model.KnapsackItem) bool {
 	return len(arr) == 0
 }
 
 func IsArrayLenNullf32(arr []float32) bool {
 	return len(arr) == 0
+}
+
+func CreateValueWeightRatio(knapsack []model.KnapsackItem) []float32 {
+	var result []float32
+	var partResult float32
+	for i := 0; i < len(knapsack); i++ {
+		if reflect.ValueOf(float32(knapsack[i].Value)).IsZero() &&  reflect.ValueOf(float32(knapsack[i].Weight)).IsZero() {
+			partResult = 0
+		} else {
+			partResult = float32(knapsack[i].Value) /  float32(knapsack[i].Weight)
+		}
+		result = append(result, partResult)
+	}
+	return result
 }

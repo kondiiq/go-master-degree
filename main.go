@@ -15,13 +15,40 @@ func main() {
 		handler.ErrorHandler(err)
 	}
 	noItems := len(knapsack)
-	fmt.Println("Knapsack is :", knapsack, " with limit :", max_capaxity, "kg and ", len(knapsack), "  items")
-	for i := 0; i < len(knapsack); i++ {
-		fmt.Println("Item:", i + 1," in knapsack have value : ", knapsack[i].Value, "$ and weight:", knapsack[i].Weight, "kg")
+	rResult := algorithms.RandomChoiceValue(max_capaxity, knapsack)
+	fmt.Println("Random alg result is :", rResult)
+	knapsack, err = handler.AppendItemsIntoKnapsack(value[:], weight[:])
+	if err != nil {
+		handler.ErrorHandler(err)
 	}
 	bfResult := algorithms.BruteForce(max_capaxity, noItems, knapsack)
 	fmt.Println("Brute force result is :", bfResult, "$")
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	knapsack, err = handler.AppendItemsIntoKnapsack(value[:], weight[:])
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
 	mvResult := algorithms.MaxValue(max_capaxity, knapsack)
-	fmt.Println("max value choose result is :", mvResult)
+	fmt.Println("max value result is :", mvResult)
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	knapsack, err = handler.AppendItemsIntoKnapsack(value[:], weight[:])
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	mwResult := algorithms.MaxWeight(max_capaxity, knapsack)
+	fmt.Println("max weight result is :", mwResult)
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	knapsack, err = handler.AppendItemsIntoKnapsack(value[:], weight[:])
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	wgResult := algorithms.WeightRatioValue(max_capaxity, knapsack)
+	fmt.Println("Weight ratio result is :", wgResult)
 }
 
