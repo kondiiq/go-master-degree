@@ -5,7 +5,7 @@ type KnapsackItem struct {
 	Weight int
 }
 
-type Resolution struct {
+type Result struct {
 	Chromosome []bool
 	Fitness int
 }
