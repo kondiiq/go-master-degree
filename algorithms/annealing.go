@@ -14,7 +14,7 @@ func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration
 	bestSolution := currentSolution
 	temp := initTemperature
 
-	for i := 0; i < maxIteration; i++ {
+	for element := 0; element < maxIteration; element++ {
 		neighbour := getNeigbour(currentSolution)
         neighbour.Fitness = handler.CalculateFitness(knapsack, neighbour, maxCapacity, penaltyValue)
 
@@ -31,8 +31,8 @@ func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration
 
 func generateSolution(knapsackSize int) model.Result {
 	chromosome := make([]bool,knapsackSize)
-	for i := range chromosome {
-		chromosome[i] = rand.Intn(2) == 1
+	for element := range chromosome {
+		chromosome[element] = rand.Intn(2) == 1
 	}
 	return model.Result{Chromosome: chromosome}
 }

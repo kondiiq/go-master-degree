@@ -6,9 +6,7 @@ import (
 	"knapsackProblem/handler"
 )
 
-func Set15Items(weightSlice, valueSlice []int, maxCapacity, penaltyValue int, initTemperature float32) {
-	
-	noGenerations := 100
+func SolveKnapsack(weightSlice, valueSlice []int, maxCapacity, penaltyValue, noGenerations int, initTemperature float32) {
 	knapsack, err := handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)

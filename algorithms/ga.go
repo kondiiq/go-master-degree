@@ -10,8 +10,8 @@ import (
 
 func GAResolver(noGeneration, maxCapacity, penaltyValue int, mutationRate float32, knapsack []model.KnapsackItem) int {
 	Population := initSinglePopulation(len(knapsack), noGeneration)
-	for i := range Population{
-		Population[i].Fitness = handler.CalculateFitness(knapsack, Population[i], maxCapacity, 1000)
+	for element := range Population{
+		Population[element].Fitness = handler.CalculateFitness(knapsack, Population[element], maxCapacity, 1000)
 		Population  = selectAndReproduce(Population)
 	}
 	_, bestResultValue := handler.CalculateWeightAndValueOfKnapsack(getBestIndividual(Population), knapsack)
@@ -43,15 +43,15 @@ func selectAndReproduce(population []model.Result) []model.Result {
 	newPopulation := make([]model.Result, len(population))
 	cumulativeFitness := make([]int, len(population))
 	cumulativeFitness[0] = population[0].Fitness
-	for i := 1; i < len(population); i++ {
-		cumulativeFitness[i] = cumulativeFitness[i - 1] + population[i].Fitness
+	for item := 1; item < len(population); item++ {
+		cumulativeFitness[item] = cumulativeFitness[item - 1] + population[item].Fitness
 	}
 	totalFitness := cumulativeFitness[len(cumulativeFitness) - 1]
 
-	for i := range newPopulation {
+	for item := range newPopulation {
 		parent1 := rouletteSelection(population, cumulativeFitness, totalFitness)
         parent2 := rouletteSelection(population, cumulativeFitness, totalFitness)
-        newPopulation[i] = crossover(parent1, parent2)
+        newPopulation[item] = crossover(parent1, parent2)
 	}
 	return newPopulation
 }
