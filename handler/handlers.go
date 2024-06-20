@@ -1,10 +1,13 @@
-package handler 
+package handler
 
 import (
-	"log"
-	"knapsackProblem/model"
 	"errors"
+	"fmt"
+	"io"
+	"knapsackProblem/model"
+	"log"
 	"math/rand"
+	"os"
 	"reflect"
 )
 
@@ -33,8 +36,8 @@ func FindMaxPropertyItem(arr []model.KnapsackItem, property string) (model.Knaps
 	}
 	max := arr[0]
 	index := 0
-	for i := 1; i < len(arr); i++ {
-		max, index = findMaxAndIndex(arr, max, index, i, property)
+	for item := 1; item < len(arr); item++ {
+		max, index = findMaxAndIndex(arr, max, index, item, property)
 	}
 	return max, index, nil
 }
@@ -44,10 +47,10 @@ func AppendItemsIntoKnapsack(values []int, weights []int) ([]model.KnapsackItem,
 	if len(values) != len(weights) {
 		return finalKnapsack, errors.New("entered values and weights are not of same length")
 	}
-	for i := 0; i < len(values); i++ {
+	for item := 0; item < len(values); item++ {
 		item := model.KnapsackItem{
-			Value: values[i],
-			Weight: weights[i],
+			Value: values[item],
+			Weight: weights[item],
 		}
         finalKnapsack = append(finalKnapsack, item)
     }
@@ -78,10 +81,10 @@ func FindMaxValueWeightRatioItemAndIndex(arr []float32) int{
 	}
 	var index int
 	max := arr[0]
-	for i := 0; i < len(arr); i++ {
-		if arr[i] > max {
-            max = arr[i]
-			index = i
+	for item := 0; item < len(arr); item++ {
+		if arr[item] > max {
+            max = arr[item]
+			index = item
         }
 	}
 	return index
@@ -109,11 +112,11 @@ func IsCapacityNull [T comparable](capacity T) bool {
 func CreateValueWeightRatio(knapsack []model.KnapsackItem) []float32 {
 	var result []float32
 	var partResult float32
-	for i := 0; i < len(knapsack); i++ {
-		if reflect.ValueOf(float32(knapsack[i].Value)).IsZero() &&  reflect.ValueOf(float32(knapsack[i].Weight)).IsZero() {
+	for item := 0; item < len(knapsack); item++ {
+		if reflect.ValueOf(float32(knapsack[item].Value)).IsZero() &&  reflect.ValueOf(float32(knapsack[item].Weight)).IsZero() {
 			partResult = 0
 		} else {
-			partResult = float32(knapsack[i].Value) /  float32(knapsack[i].Weight)
+			partResult = float32(knapsack[item].Value) /  float32(knapsack[item].Weight)
 		}
 		result = append(result, partResult)
 	}
@@ -133,13 +136,13 @@ func CalculateWeightAndValueOfKnapsack(result model.Result, knapsack []model.Kna
 	}
 	currentWeight := 0
 	currentValue  := 0
-	for i := range knapsack {
-		if !result.Chromosome[i] {
+	for item := range knapsack {
+		if !result.Chromosome[item] {
 			currentWeight += 0
 			currentValue  += 0
 		} else{
-			currentValue += knapsack[i].Value
-			currentWeight += knapsack[i].Weight
+			currentValue += knapsack[item].Value
+			currentWeight += knapsack[item].Weight
 		}
 	}
 	return currentWeight, currentValue
@@ -151,4 +154,25 @@ func CalculateFitness(knapsack []model.KnapsackItem, result model.Result, maxCap
         return knapsackValue - penaltyValue
     }
 	return knapsackValue
+}
+
+func ReadFile(path string)  {
+	file, err := os.Open(path)
+    ErrorHandler(err)
+	
+    defer file.Close()
+	buffer := make([]byte, 4096)
+	for {
+		n, err := file.Read(buffer)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Print(err)
+			continue
+		}
+		if n > 0 {
+			fmt.Println(string(buffer[:]))
+		}
+	}
 }

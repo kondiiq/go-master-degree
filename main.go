@@ -9,7 +9,7 @@ func main() {
 	weight := sets.Weight15()
 	var maxCapaxity int = sets.MaxCapacity15()
 	var penaltyValue int = sets.Penalty15()
-	const noGenerations int = 1000
+	const noGenerations int = 10000
 	var initTemperature float32 = sets.Temp15()
 	sets.SolveKnapsack(weight, value, maxCapaxity, penaltyValue, noGenerations, initTemperature)
 }

@@ -1,5 +1,7 @@
 package sets
 
+import "knapsackProblem/handler"
+
 //No. Items is 15
 
 func Value15() []int {
@@ -24,7 +26,25 @@ func Temp15() float32 {
 
 
 //No. Items is 50
+func Value50(sPath string) {
+	handler.ReadFile(sPath)
+}
 
+func Weight50(sPath string) {
+	handler.ReadFile(sPath)
+}
+
+func MaxCapacity50() int {
+	return 750
+}
+
+func Penalty50() int {
+	return 1500
+}
+
+func Temp50() float32 {
+	return 1000.0
+}
 
 
 //No. Items is 100
