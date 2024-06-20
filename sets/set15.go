@@ -8,7 +8,7 @@ import (
 
 func Set15Items(weightSlice, valueSlice []int, maxCapacity int) {
 	
-	noGenerations := 88
+	noGenerations := 100
 	knapsack, err := handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
@@ -60,5 +60,5 @@ func Set15Items(weightSlice, valueSlice []int, maxCapacity int) {
 		handler.ErrorHandler(err)
 	}
 	gaResult := algorithms.GAResolver(noGenerations, maxCapacity, 0.01, knapsack)
-	fmt.Print(gaResult)
+	fmt.Println("GA result is :", gaResult)
 }
