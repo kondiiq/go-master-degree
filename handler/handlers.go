@@ -126,3 +126,29 @@ func CompareValues(a, b int) int {
 	}
 	return b
 }
+
+func CalculateWeightAndValueOfKnapsack(result model.Result, knapsack []model.KnapsackItem) (int, int) {
+	if len(knapsack) == 0 {
+		return 0, 0
+	}
+	currentWeight := 0
+	currentValue  := 0
+	for i := range knapsack {
+		if !result.Chromosome[i] {
+			currentWeight += 0
+			currentValue  += 0
+		} else{
+			currentValue += knapsack[i].Value
+			currentWeight += knapsack[i].Weight
+		}
+	}
+	return currentWeight, currentValue
+}
+
+func CalculateFitness(knapsack []model.KnapsackItem, result model.Result, maxCapacity, penaltyValue int) int {
+	knapsackWeight, knapsackValue := CalculateWeightAndValueOfKnapsack(result, knapsack)
+	if knapsackWeight > maxCapacity {
+        return knapsackValue - penaltyValue
+    }
+	return knapsackValue
+}

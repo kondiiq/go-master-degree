@@ -6,7 +6,7 @@ import (
 	"knapsackProblem/handler"
 )
 
-func Set15Items(weightSlice, valueSlice []int, maxCapacity int) {
+func Set15Items(weightSlice, valueSlice []int, maxCapacity, penaltyValue int, initTemperature float32) {
 	
 	noGenerations := 100
 	knapsack, err := handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
@@ -59,6 +59,12 @@ func Set15Items(weightSlice, valueSlice []int, maxCapacity int) {
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
-	gaResult := algorithms.GAResolver(noGenerations, maxCapacity, 0.01, knapsack)
+	gaResult := algorithms.GAResolver(noGenerations, maxCapacity, penaltyValue, 0.01, knapsack)
 	fmt.Println("GA result is :", gaResult)
+	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
+	if err != nil {
+		handler.ErrorHandler(err)
+	}
+	saResult := algorithms.SimulatedAnnealing(knapsack, maxCapacity, noGenerations, penaltyValue, 0.01, initTemperature)
+	fmt.Println("SA result is :", saResult.Fitness)
 }

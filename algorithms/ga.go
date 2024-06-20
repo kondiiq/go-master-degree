@@ -3,17 +3,18 @@ package algorithms
 import (
 
 	"knapsackProblem/model"
+	"knapsackProblem/handler"
 	rand "math/rand"
 	"sort"
 )
 
-func GAResolver(noGeneration, maxCapacity int, mutationRate float32, knapsack []model.KnapsackItem) int {
+func GAResolver(noGeneration, maxCapacity, penaltyValue int, mutationRate float32, knapsack []model.KnapsackItem) int {
 	Population := initSinglePopulation(len(knapsack), noGeneration)
 	for i := range Population{
-		Population[i].Fitness = calculateFitness(knapsack, Population[i], maxCapacity)
+		Population[i].Fitness = handler.CalculateFitness(knapsack, Population[i], maxCapacity, 1000)
 		Population  = selectAndReproduce(Population)
 	}
-	_, bestResultValue := calculateWeightAndValueOfKnapsack(getBestIndividual(Population), knapsack)
+	_, bestResultValue := handler.CalculateWeightAndValueOfKnapsack(getBestIndividual(Population), knapsack)
 	return bestResultValue
 }
 
@@ -28,32 +29,6 @@ func initSinglePopulation(populationSize, noPopulation int) []model.Result {
         population[element] = model.Result{Chromosome: chromosome}
     }
     return population
-}
-
-func calculateWeightAndValueOfKnapsack(result model.Result, knapsack []model.KnapsackItem) (int, int) {
-	if len(knapsack) == 0 {
-		return 0, 0
-	}
-	currentWeight := 0
-	currentValue  := 0
-	for i := range knapsack {
-		if !result.Chromosome[i] {
-			currentWeight += 0
-			currentValue  += 0
-		} else{
-			currentValue += knapsack[i].Value
-			currentWeight += knapsack[i].Weight
-		}
-	}
-	return currentWeight, currentValue
-}
-
-func calculateFitness(knapsack []model.KnapsackItem, result model.Result, maxCapacity int) int {
-	knapsackWeight, knapsackValue := calculateWeightAndValueOfKnapsack(result, knapsack)
-	if knapsackWeight > maxCapacity {
-        return knapsackValue - 1000
-    }
-	return knapsackValue
 }
 
 func rouletteSelection(population []model.Result, cumulativeFitness []int, totalFitness int) model.Result {
