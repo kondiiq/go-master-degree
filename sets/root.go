@@ -4,65 +4,80 @@ import (
 	"fmt"
 	"knapsackProblem/algorithms"
 	"knapsackProblem/handler"
+	"knapsackProblem/model"
 )
 
 func SolveKnapsack(weightSlice, valueSlice []int, maxCapacity, penaltyValue, noGenerations int, initTemperature float32) {
+	var resultToWrite []model.FinalKnapsack
+	
 	knapsack, err := handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	noItems := len(knapsack)
+	
 	rResult := algorithms.RandomChoiceValue(maxCapacity, knapsack)
-	fmt.Println("Random alg result is :", rResult)
+	resultToWrite = append(resultToWrite, rResult)
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
-	bfResult := algorithms.BruteForce(maxCapacity, noItems, knapsack)
-	fmt.Println("Brute force result is :", bfResult, "$")
+	bfResult := algorithms.ConvertBFtoFinalKnapsack(algorithms.BruteForce(maxCapacity, noItems, knapsack))
+	resultToWrite = append(resultToWrite, bfResult)
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	mvResult := algorithms.MaxValue(maxCapacity, knapsack)
-	fmt.Println("max valueSlice result is :", mvResult)
+	resultToWrite = append(resultToWrite, mvResult)
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	mwResult := algorithms.MaxWeight(maxCapacity, knapsack)
-	fmt.Println("max weightSlice result is :", mwResult)
+	resultToWrite = append(resultToWrite, mwResult)
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	wgResult := algorithms.WeightRatioValue(maxCapacity, knapsack)
-	fmt.Println("Weight ratio result is :", wgResult)
+	resultToWrite = append(resultToWrite, wgResult)
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	dpResult := algorithms.DynamicProgramming(maxCapacity, knapsack)
-	fmt.Println("Dynamic programming result is :", dpResult)
+	resultToWrite = append(resultToWrite, dpResult)
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
 	gaResult := algorithms.GAResolver(noGenerations, maxCapacity, penaltyValue, 0.01, knapsack)
-	fmt.Println("GA result is :", gaResult)
+	resultToWrite = append(resultToWrite, gaResult)
+	
 	knapsack, err = handler.AppendItemsIntoKnapsack(valueSlice[:], weightSlice[:])
 	if err != nil {
 		handler.ErrorHandler(err)
 	}
-	saResult := algorithms.SimulatedAnnealing(knapsack, maxCapacity, noGenerations, penaltyValue, 0.01, initTemperature)
-	fmt.Println("SA result is :", saResult.Fitness)
+	saResult := algorithms.Convert2FinalKnapsack(algorithms.SimulatedAnnealing(knapsack, maxCapacity, noGenerations, penaltyValue, 0.01, initTemperature).Fitness, "Simulated annealling(SA) mehod")
+	resultToWrite = append(resultToWrite, saResult)
+
+	for item := range resultToWrite {
+		fmt.Println(resultToWrite[item].Method, resultToWrite[item].Value)
+	}
 }

@@ -5,9 +5,13 @@ import (
 	"knapsackProblem/model"
 )
 
-func MaxValue(maxCapacity int, knapsack []model.KnapsackItem) int {
+func MaxValue(maxCapacity int, knapsack []model.KnapsackItem) model.FinalKnapsack {
+	var method string = "Max value items mathod"
 	if maxCapacity == 0 || handler.IsArrayLenNull(knapsack) {
-		return 0
+		return  model.FinalKnapsack{
+			Method : method,
+			Value : 0,
+		}
 	}
 	noItems := len(knapsack)
 	currentResult := knapsack[noItems - 1].Value
@@ -23,5 +27,8 @@ func MaxValue(maxCapacity int, knapsack []model.KnapsackItem) int {
 		handler.RemoveElementWithIndexN(knapsack, index)
 		_, index, err = handler.FindMaxPropertyItem(knapsack, "value")
 	}
-	return currentResult
+	return model.FinalKnapsack{
+		Method : method,
+		Value : currentResult,
+	}
 }

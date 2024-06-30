@@ -5,9 +5,13 @@ import (
 	"knapsackProblem/model"
 )
 
-func WeightRatioValue(maxCapacity int, knapsack []model.KnapsackItem) int {
+func WeightRatioValue(maxCapacity int, knapsack []model.KnapsackItem) model.FinalKnapsack {
+	var method string = "Weight calculation method"
 	if maxCapacity == 0 || handler.IsArrayLenNull(knapsack) {
-		return 0
+		return  model.FinalKnapsack{
+			Method : method,
+			Value : 0,
+		}
 	}
 	currentWeight := 0
 	currentResult := 0
@@ -20,5 +24,8 @@ func WeightRatioValue(maxCapacity int, knapsack []model.KnapsackItem) int {
 		ratioArray = handler.CreateValueWeightRatio(knapsack)
 		index = handler.FindMaxValueWeightRatioItemAndIndex(ratioArray)
 	}
-	return currentResult
+	return model.FinalKnapsack{
+		Method : method,
+		Value : currentResult,
+	}
 }

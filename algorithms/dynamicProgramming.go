@@ -5,9 +5,13 @@ import (
 	"knapsackProblem/model"
 )
 
-func DynamicProgramming(maxCapacity int, knapsack []model.KnapsackItem) int {
+func DynamicProgramming(maxCapacity int, knapsack []model.KnapsackItem) model.FinalKnapsack {
+	var method string = "Dynamic programming method"
 	if maxCapacity == 0 || handler.IsArrayLenNull(knapsack){ 
-		return 0
+		return  model.FinalKnapsack{
+			Method : method,
+			Value : 0,
+		}
 	}
 	maxValues := make([]int, maxCapacity + 1)
 	for _, item := range knapsack {
@@ -16,5 +20,8 @@ func DynamicProgramming(maxCapacity int, knapsack []model.KnapsackItem) int {
 			maxValues[c] = handler.CompareValues(maxValues[c], maxValues[c-item.Weight] + item.Value)
 		}
 	}
-	return maxValues[maxCapacity]
+	return model.FinalKnapsack{
+		Method : method,
+		Value : maxValues[maxCapacity],
+	}
 }

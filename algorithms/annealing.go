@@ -10,7 +10,6 @@ import (
 func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration, penaltyValue int, coolingRate, initTemperature float32) model.Result {
 	currentSolution := generateSolution(len(knapsack))
 	currentSolution.Fitness = handler.CalculateFitness(knapsack, currentSolution, maxCapacity, penaltyValue)
-
 	bestSolution := currentSolution
 	temp := initTemperature
 
@@ -27,6 +26,13 @@ func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration
 		}
 	}
 	return bestSolution
+}
+
+func Convert2FinalKnapsack(result int, method string) model.FinalKnapsack {
+	return model.FinalKnapsack{
+		Method : method,
+		Value : result,
+	}
 }
 
 func generateSolution(knapsackSize int) model.Result {

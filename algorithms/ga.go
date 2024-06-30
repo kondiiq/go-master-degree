@@ -8,14 +8,18 @@ import (
 	"sort"
 )
 
-func GAResolver(noGeneration, maxCapacity, penaltyValue int, mutationRate float32, knapsack []model.KnapsackItem) int {
+func GAResolver(noGeneration, maxCapacity, penaltyValue int, mutationRate float32, knapsack []model.KnapsackItem) model.FinalKnapsack {
+	var method string = "GA method"
 	Population := initSinglePopulation(len(knapsack), noGeneration)
 	for element := range Population{
 		Population[element].Fitness = handler.CalculateFitness(knapsack, Population[element], maxCapacity, 1000)
 		Population  = selectAndReproduce(Population)
 	}
 	_, bestResultValue := handler.CalculateWeightAndValueOfKnapsack(getBestIndividual(Population), knapsack)
-	return bestResultValue
+	return model.FinalKnapsack{
+		Method : method,
+		Value : bestResultValue,
+	}
 }
 
 func initSinglePopulation(populationSize, noPopulation int) []model.Result {

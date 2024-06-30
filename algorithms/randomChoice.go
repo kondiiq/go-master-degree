@@ -5,9 +5,13 @@ import (
 	"knapsackProblem/model"
 )
 
-func RandomChoiceValue(maxCapacity int, knapsack []model.KnapsackItem) int {
+func RandomChoiceValue(maxCapacity int, knapsack []model.KnapsackItem) model.FinalKnapsack {
+	var method string = "Random choice method"
 	if maxCapacity == 0 || handler.IsArrayLenNull(knapsack) {
-		return 0
+		return  model.FinalKnapsack{
+			Method : method,
+			Value : 0,
+		}
 	}
 	index, err := handler.ChooseRandomIndex(knapsack)
 	if err!= nil {
@@ -24,5 +28,8 @@ func RandomChoiceValue(maxCapacity int, knapsack []model.KnapsackItem) int {
 			handler.ErrorHandler(err)
 		}
 	}
-	return currentResult
+	return model.FinalKnapsack{
+		Method : method,
+		Value : currentResult,
+	}
 }
