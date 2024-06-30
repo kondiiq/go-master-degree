@@ -9,3 +9,8 @@ type Result struct {
 	Chromosome []bool
 	Fitness int
 }
+
+type FinalKnapsack struct {
+	Method string
+	Value int
+}
