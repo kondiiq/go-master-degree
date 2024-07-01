@@ -1,8 +1,43 @@
 package sets
 
-import "knapsackProblem/handler"
+import (
+	"knapsackProblem/handler"
+	"knapsackProblem/model"
+)
 
-//No. Items is 15
+func CreateKnapsack15() ([]model.KnapsackItem, error){
+	values := Value15()
+	weights := Weight15()
+	var knapsackItems []model.KnapsackItem
+	for i:=0; i<len(values); i++ {
+		knapsackItems = append(knapsackItems, model.KnapsackItem{Value: values[i], Weight: weights[i]})
+	}
+	return knapsackItems, nil
+}
+
+func CreateKnapsack50() ([]model.KnapsackItem, error) { 
+	knapsack, err := handler.Convert2Knapsack("./data/dataset50.csv")
+	if err != nil {
+		return nil, err
+	}
+	return knapsack, nil
+}
+
+func CreateKnapsack100() ([]model.KnapsackItem, error) { 
+	knapsack, err := handler.Convert2Knapsack("./data/dataset100.csv")
+	if err != nil {
+		return nil, err
+	}
+	return knapsack, nil
+}
+
+func CreateKnapsack200() ([]model.KnapsackItem, error) { 
+	knapsack, err := handler.Convert2Knapsack("./data/dataset200.csv")
+	if err != nil {
+		return nil, err
+	}
+	return knapsack, nil
+}
 
 func Value15() []int {
 	return []int{135, 139, 149, 150, 156, 163, 173, 184, 192, 201, 210, 214, 221, 229, 240}
@@ -24,18 +59,8 @@ func Temp15() float32 {
 	return 1000.0
 }
 
-
-//No. Items is 50
-func Value50(sPath string) {
-	handler.ReadFile(sPath)
-}
-
-func Weight50(sPath string) {
-	handler.ReadFile(sPath)
-}
-
 func MaxCapacity50() int {
-	return 750
+	return 75
 }
 
 func Penalty50() int {
@@ -46,7 +71,5 @@ func Temp50() float32 {
 	return 1000.0
 }
 
-
-//No. Items is 100
 
 

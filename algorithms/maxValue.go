@@ -21,7 +21,7 @@ func MaxValue(maxCapacity int, knapsack []model.KnapsackItem) model.FinalKnapsac
 	if err!= nil {
         handler.ErrorHandler(err)
     }
-	for currentWeight +  knapsack[index].Weight <= maxCapacity || len(knapsack) == 1 {
+	for currentWeight + knapsack[index].Weight <= maxCapacity || len(knapsack) == 1 {
 		currentResult += knapsack[index].Value
 		currentWeight += knapsack[index].Weight
 		handler.RemoveElementWithIndexN(knapsack, index)
