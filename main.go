@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"knapsackProblem/handler"
 	"knapsackProblem/sets"
 )
 
@@ -19,5 +20,5 @@ func main() {
 	if err != nil {
 		fmt.Print(err)
 	}
-	fmt.Print(knapsack)
+	handler.Write2CSV("result", knapsack)
 }

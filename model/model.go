@@ -1,16 +1,16 @@
 package model
 
 type KnapsackItem struct {
-	Value int
+	Value  int
 	Weight int
 }
 
 type Result struct {
 	Chromosome []bool
-	Fitness int
+	Fitness    int
 }
 
 type FinalKnapsack struct {
 	Method string
-	Value int
+	Value  int
 }

@@ -15,7 +15,7 @@ func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration
 
 	for element := 0; element < maxIteration; element++ {
 		neighbour := getNeigbour(currentSolution)
-        neighbour.Fitness = handler.CalculateFitness(knapsack, neighbour, maxCapacity, penaltyValue)
+		neighbour.Fitness = handler.CalculateFitness(knapsack, neighbour, maxCapacity, penaltyValue)
 
 		if neighbour.Fitness > currentSolution.Fitness || rand.Float32() < acceptancePobability(currentSolution.Fitness, neighbour.Fitness, temp) {
 			currentSolution = neighbour
@@ -30,13 +30,13 @@ func SimulatedAnnealing(knapsack []model.KnapsackItem, maxCapacity, maxIteration
 
 func Convert2FinalKnapsack(result int, method string) model.FinalKnapsack {
 	return model.FinalKnapsack{
-		Method : method,
-		Value : result,
+		Method: method,
+		Value:  result,
 	}
 }
 
 func generateSolution(knapsackSize int) model.Result {
-	chromosome := make([]bool,knapsackSize)
+	chromosome := make([]bool, knapsackSize)
 	for element := range chromosome {
 		chromosome[element] = rand.Intn(2) == 1
 	}
@@ -47,14 +47,13 @@ func getNeigbour(solution model.Result) model.Result {
 	neighbour := model.Result{Chromosome: make([]bool, len(solution.Chromosome))}
 	copy(neighbour.Chromosome, solution.Chromosome)
 	idx := rand.Intn(len(solution.Chromosome))
-	neighbour.Chromosome[idx] =!neighbour.Chromosome[idx]
+	neighbour.Chromosome[idx] = !neighbour.Chromosome[idx]
 	return neighbour
 }
 
 func acceptancePobability(currentFitness, newFitness int, temperature float32) float32 {
 	if newFitness > currentFitness {
-        return 1.0
-    }
-    return float32(math.Exp(float64(newFitness-currentFitness) / float64(temperature)))
+		return 1.0
+	}
+	return float32(math.Exp(float64(newFitness-currentFitness) / float64(temperature)))
 }
-

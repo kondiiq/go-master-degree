@@ -5,17 +5,17 @@ import (
 	"knapsackProblem/model"
 )
 
-func CreateKnapsack15() ([]model.KnapsackItem, error){
+func CreateKnapsack15() ([]model.KnapsackItem, error) {
 	values := Value15()
 	weights := Weight15()
 	var knapsackItems []model.KnapsackItem
-	for i:=0; i<len(values); i++ {
+	for i := 0; i < len(values); i++ {
 		knapsackItems = append(knapsackItems, model.KnapsackItem{Value: values[i], Weight: weights[i]})
 	}
 	return knapsackItems, nil
 }
 
-func CreateKnapsack50() ([]model.KnapsackItem, error) { 
+func CreateKnapsack50() ([]model.KnapsackItem, error) {
 	knapsack, err := handler.Convert2Knapsack("./data/dataset50.csv")
 	if err != nil {
 		return nil, err
@@ -23,7 +23,7 @@ func CreateKnapsack50() ([]model.KnapsackItem, error) {
 	return knapsack, nil
 }
 
-func CreateKnapsack100() ([]model.KnapsackItem, error) { 
+func CreateKnapsack100() ([]model.KnapsackItem, error) {
 	knapsack, err := handler.Convert2Knapsack("./data/dataset100.csv")
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func CreateKnapsack100() ([]model.KnapsackItem, error) {
 	return knapsack, nil
 }
 
-func CreateKnapsack200() ([]model.KnapsackItem, error) { 
+func CreateKnapsack200() ([]model.KnapsackItem, error) {
 	knapsack, err := handler.Convert2Knapsack("./data/dataset200.csv")
 	if err != nil {
 		return nil, err
@@ -70,6 +70,3 @@ func Penalty50() int {
 func Temp50() float32 {
 	return 1000.0
 }
-
-
-

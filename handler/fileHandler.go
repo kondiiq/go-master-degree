@@ -88,20 +88,31 @@ func Convert2Knapsack(sPath string) ([]model.KnapsackItem, error) {
 	return knapsack, nil
 }
 
-func Write2CSV(fileName string, data [][]string) error {
-	// Write content to csv
+func Write2CSV(fileName string, data []model.FinalKnapsack) error {
 	csvFile, err := os.Create(fileName + ".csv")
-    if err != nil {
-		fmt.Errorf("Something went wrong :", err)
+    
+	if err != nil {
+		fmt.Println("Something went wrong :", err)
 		return err
 	}
     defer csvFile.Close()
-	csvWriter := csv.NewWriter(csvFile)
-	if err := csvWriter.WriteAll(data); err != nil {
-        return fmt.Errorf("could not write data to CSV: %v", err)
-    }
-	csvWriter.Flush()
-    return nil
+	writer := csv.NewWriter(csvFile)
+    defer writer.Flush()
+	headers := []string{"Method", "Result"}
+	
+	if err := writer.Write(headers); err != nil {
+		fmt.Println(err)
+		return err
+	}
+	
+	for _, item := range data {
+		record := []string{item.Method, strconv.Itoa(item.Value)}
+		if err := writer.Write(record); err!= nil {
+            fmt.Println(err)
+			return err
+        }
+	}
+	return nil
 }
 
 
