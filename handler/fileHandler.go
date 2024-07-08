@@ -115,4 +115,6 @@ func Write2CSV(fileName string, data []model.FinalKnapsack) error {
 	return nil
 }
 
+func Convert2JSON(data []model.FinalKnapsack) {}
+
 

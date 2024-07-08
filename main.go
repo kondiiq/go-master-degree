@@ -6,8 +6,6 @@ import (
 	"knapsackProblem/sets"
 )
 
-// "knapsackProblem/sets"
-
 func main() {
 
 	value := sets.Value15()
@@ -21,4 +19,6 @@ func main() {
 		fmt.Print(err)
 	}
 	handler.Write2CSV("result", knapsack)
+
+	handler.RunBackend()
 }
