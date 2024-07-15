@@ -1,10 +1,9 @@
 package routes
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"knapsackProblem/model"
-	"knapsackProblem/handler"
+	
 )
 
 func GetData(ctx *gin.Context) {
@@ -28,10 +27,10 @@ func CalculateKnapsack() ([] model.FinalKnapsack, error) {
 }
 
 func GenerateCSVKnapsack(knapsack [] model.FinalKnapsack) {
-	handler.Write2CSV("result", knapsack)
+	// handler.Write2CSV("result", knapsack)
 }
 
 func ReadCSV(sPath string) {
-	data, _ := handler.ReadCSVfile(sPath)
-    fmt.Println(data)
+	// data, _ := handler.ReadCSVfile(sPath)
+    // fmt.Println(data)
 }

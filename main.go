@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"knapsackProblem/handler"
 	"knapsackProblem/sets"
+	"knapsackProblem/db"
 )
 
 func main() {
@@ -21,4 +22,5 @@ func main() {
 	handler.Write2CSV("result", knapsack)
 
 	handler.RunBackend()
+	db.ConnectDatabase()
 }
