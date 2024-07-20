@@ -124,7 +124,7 @@ func CreateValueWeightRatio(knapsack []model.KnapsackItem) []float32 {
 }
 
 func CompareValues(a, b int) int {
-	if a > b {
+	if a > b || a >= b {
 		return a
 	}
 	return b

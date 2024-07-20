@@ -6,6 +6,17 @@ import (
 	
 )
 
+func getRoutes(endpointGroup *gin.RouterGroup) {
+	v2 := endpointGroup.Group("/knapsack")
+	{
+		v2.GET("/", GetData)
+		v2.POST("/", PostData)
+		v2.PATCH("/:ID", UpdateData)
+		v2.DELETE("/:ID", DeleteData)
+		// v2.GET("/calculate", CalculateKnapsack)
+	}
+}
+
 func GetData(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{"message": "Hello, World!"})
 }
@@ -22,7 +33,7 @@ func DeleteData(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{"message": "Data removed !"})
 }
 
-func CalculateKnapsack() ([] model.FinalKnapsack, error) {
+func CalculateKnapsack(ctx *gin.Context) ([] model.FinalKnapsack, error) {
 	return []model.FinalKnapsack{}, nil
 }
 

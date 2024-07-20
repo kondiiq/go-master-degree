@@ -3,9 +3,9 @@ package handler
 import (
 	"encoding/csv"
 	"fmt"
+	"knapsackProblem/model"
 	"os"
 	"strconv"
-	"knapsackProblem/model"
 )
 
 func Write2File(fileName string, content string) error{
@@ -101,7 +101,6 @@ func Write2CSV(fileName string, data []model.FinalKnapsack) error {
 	headers := []string{"Method", "Result"}
 	
 	if err := writer.Write(headers); err != nil {
-		fmt.Println(err)
 		return err
 	}
 	
