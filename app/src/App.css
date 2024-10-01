@@ -1,3 +1,23 @@
+:root {
+  --body_background : white;
+  --color-primary: #0060df;
+  --color-secondary: #fbfbfe;
+  --color-accent: #fd6f53;
+  --font-color: #000000;
+}
+
+[data-theme="dark"] {
+  --body_background : #282c34;
+  --color-primary: #17ed90;
+  --color-secondary: #243133;
+  --color-accent: #12cdea;
+  --font-color: #ffffff;
+}
+
+* {
+  transition: all 0.25s ease-in-out;
+}
+
 .App {
   text-align: center;
 }
@@ -14,18 +34,18 @@
 }
 
 .App-header {
-  background-color: #13367c;
+  background-color: var(--body_background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--color-primary);
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--font-color);
 }
 
 @keyframes App-logo-spin {
@@ -37,17 +57,6 @@
   }
 }
 
-.add-row {
-  background-color: #22db0e;
+.button-margin {
   margin-right: 0.95em;
-}
-
-.delete-row {
-  background-color: #da1616;
-  margin-right: 0.5em;
-}
-
-.edit-row {
-  background-color: #ffaf04;
-  margin-right: 0.5em;
 }

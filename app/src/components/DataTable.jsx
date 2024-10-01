@@ -5,61 +5,65 @@ import 'primereact/resources/primereact.min.css';
 import React, { useState, useRef } from 'react';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { FilterMatchMode, PrimeIcons } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
+import { Messages } from 'primereact/messages';
 import { Button } from 'primereact/button';
+import { ButtonGroup } from 'primereact/buttongroup';
 import { Toast } from 'primereact/toast';
 import 'primeicons/primeicons.css';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Messages } from 'primereact/messages';
 
 const DataTableComponent = () => {
     const [oFilters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
-    const [aData, setAData] = useState([
+    const aMessages = useRef(null);
+
+    const addMessage = () => {
+        aMessages.current.show([
+            { severity: 'info', life: 3172, summary: 'Info', detail: 'Here You got item with n Value, w Weight and n/w Ratio ;)', sticky: false, closable: false }
+        ]);
+    }
+
+    const [aData, setData] = useState([
         {
             id : 1,
-            name : "Josh",
-            age : 25,
-            city : "Tbg"
+            value : 25,
+            weight : 50
         },
         {
             id : 2,
-            name : "Pajeet",
-            age : 69,
-            city : "London"
+            value : 69,
+            weight : 12
         },
         {
             id : 3,
-            name : "Ashok",
-            age : 22,
-            city : "Bengalure"
+            value : 22,
+            weight : 99
         },
         {
             id : 4,
-            name : "Kumar",
-            age : 23,
-            city : "XDD"
+            value : 23,
+            weight : 69
         }
     ]);
 
     const fnAddEmptyRow = () => {
         const oNewRow = {
             id : aData.length + 1,
-            name : '',
-            age : null,
-            city : ''
+            value : null,
+            weight : ''
         };
-        setAData([...aData, oNewRow]);
+        setData([...aData, oNewRow]);
     };
+
 
     const fnRemoveRow = (oRowData) => {
         confirmDialog({
-            message: 'Are you sure you want to delete this record?',
+            message: 'Are You sure ??? \n Do You want to delete this record?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                setAData(aData.filter(oRow => oRow.id !== oRowData.id));
+                setData(aData.filter(oRow => oRow.id !== oRowData.id));
                 fnShowSuccess();
             },
             reject: () => {fnShowErrMessage()}
@@ -68,11 +72,18 @@ const DataTableComponent = () => {
 
     const fnEsditRow = (oRowData) => {
         const oReplacedRow = {
-            name : '',
-            age : null,
-            city : ''
+            value : null,
+            weight : ''
         };
-        setAData([...aData, oReplacedRow]);
+        setData([...aData, oReplacedRow]);
+    };
+
+    const fnEsditRowComplete = (oRowData) => {
+        const oReplacedRow = {
+            value : null,
+            weight : ''
+        };
+        setData([...aData, oReplacedRow]);
     };
 
     const oToast = useRef(null);
@@ -94,8 +105,12 @@ const DataTableComponent = () => {
     const actionBodyTemplate = (oRowData) => {
         return (
             <React.Fragment>
-                <Button className='delete-row' icon={PrimeIcons.MINUS} onClick={() => fnRemoveRow(oRowData)}/>
-                <Button className='edit-row' icon={PrimeIcons.USER_EDIT} onClick={() => fnEsditRow(oRowData)}/>
+                <ButtonGroup>
+                    <Button severity="danger" className='button-margin' icon={PrimeIcons.MINUS} onClick={() => fnRemoveRow(oRowData)}/>
+                    <Button severity="info" size="small" rounded className='button-margin' icon={PrimeIcons.INFO} onClick={addMessage}/>
+                    <Button severity="warning" className='button-margin' icon={PrimeIcons.USER_EDIT} onClick={() => fnEsditRow(oRowData)}/>
+                        <Messages ref={aMessages}/>
+                </ButtonGroup>
             </React.Fragment>
         );
     };
@@ -105,24 +120,22 @@ const DataTableComponent = () => {
             <Messages ref={oMessage}/>
             <Toast ref={oToast}/>
             <ConfirmDialog/>
-            <InputText
-                style={{ display: 'flex', justifyContent: 'flex-end' }}
-                placeholder='Enter name '
-                onInput={(oEvent) => setFilters({
-                    ...oFilters,
-                    global: { value: oEvent.target.value, matchMode: FilterMatchMode.CONTAINS },
-                })}
-            />
-            <Button className="add-row" icon={PrimeIcons.PLUS} onClick={() => fnAddEmptyRow()}/>
+            <div style={{ display: "flex" }}>
+            <Button severity="info" style={{ marginLeft: "auto" }} rounded  className="button-margin" icon={PrimeIcons.PLUS} onClick={fnAddEmptyRow}/>
+            </div>
             <DataTable
                 id="knapsackTable"
+                editMode='cell'
                 value={aData}
+                scrollable
                 dataKey="id"
                 selectionMode="single"
                 sortField="name"
                 sortOrder={-1}
                 sortMode="multiple"
                 filters={oFilters}
+                onRowEditChange={fnEsditRow}
+                onRowEditComplete={fnEsditRowComplete}
                 paginator
                 rows={aData.length}
                 rowsPerPageOptions={[25, 50, 100]}
@@ -130,13 +143,11 @@ const DataTableComponent = () => {
                 tableStyle={{ minWidth: '60rem' }}
                 showGridlines
                 stripedRows
-                scrollable
                 scrollHeight='500px'>
                 <Column field="id" header="ID" hidden/>
-                <Column field="name" header="Name" sortable/>
-                <Column field="age" header="Age" sortable/>
-                <Column field="city" header="City" sortable/>
-                <Column body={actionBodyTemplate} header="Actions"/>
+                <Column field="value" header="Value [$]" sortable/>
+                <Column field="weight" header="Weight [Kg]" sortable/>
+                <Column body={actionBodyTemplate} expander header="Actions"/>
             </DataTable>
         </div>
     );

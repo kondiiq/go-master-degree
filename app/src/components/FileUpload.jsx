@@ -13,7 +13,8 @@ const FileUploadComponent = () => {
 
     return (
         <div className="card">
-            <FileUpload name="demo[]" url="./upload" onUpload={onUpload} multiple accept="image/*" maxFileSize={1000000} />
+            <FileUpload name="demo[]" url="./upload" onUpload={onUpload}
+                multiple accept="image/*" maxFileSize={1000000} />
         </div>
     );
 }
